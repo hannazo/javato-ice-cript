@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
     <title>JavaScript Quiz</title>
     <link rel="stylesheet" href="./assets/style.css">
 </head>
@@ -13,16 +17,16 @@
         <nav>
             <a>View Leaderboard</a> <!--LINK TO LEADERBOARD-->
         </nav>
-        <div></div> <!--TIMER-->
+        <div id="timer">
+            <p>Time: <span>0</span></p> <!--TIMER-->
+        </div>
     </header>
     <main>
-        <!--INSTRUCTIONS AND START THE QUIZ SECTION-->
-        <section>
-            <h1>Ice-Cream Quiz</h1>
+        <!--HOME SECTION WITH INSTRUCTIONS AND START QUIZ BUTTON-->
+        <section id="home" class="quiz-section">
+            <h1>JavaScript Quiz</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti illo voluptates repellendus
-                <br>
                 ab repudiandae. Tempore fuga reiciendis quam, commodi quisquam doloremque deleniti illum! Ducimus
-                <br>
                 numquam iusto, unde dolore accusamus vero!
             </p>
             <button>Start Quiz</button>
@@ -34,7 +38,7 @@
             <ul></ul> <!--QUESTION ANSWERS-->
         </section>
 
-        <!--QUIZ QUESTIONS SECTION-->
+        <!--FINAL SECTION-->
         <section>
             <h1>All done!</h1>
             <p></p> <!--FINAL SCORE-->
@@ -44,10 +48,25 @@
                 <button type="submit">Submit</button>
             </form>
         </section>
-        
+
         <!--FEEDBACK SECTION-->
         <section>
             <p></p> <!--CORRECT OR WRONG ANSWER-->
+        </section>
+
+        <!--LEADERBOARD SECTION-->
+        <section>
+            <h1>High Scores</h1>
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>Score</th>
+                    <th>Initials</th>
+                </tr>
+                <!--ADD SAVED SCORE AND INITIALS HERE-->
+            </table>
+            <button>Go Back</button>
+            <button>Clear high scores</button>
         </section>
     </main>
 
