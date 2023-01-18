@@ -1,13 +1,39 @@
-// When mouse is over start button
-   // Button changes color
+// Declare variables
+// Timer
+var timeEl = document.getElementById("timer");
+var secondsLeft = 30;
+// Buttons
+var startBtn = document.getElementById("start-button");
+// Home section
+var homeSection = document.querySelector(".home-section");
+// Quiz section
+var quizSection = document.querySelector(".quiz-section");
 
 // When click on start button
-   // Timer starts
-   // First question is presented
+startBtn.addEventListener('click', startQuiz);
 
-// When mouse is over answer options
-   // Options change color
+// Timer starts
+function startTimer() {
+   var timerInterval = setInterval(function () {
+      secondsLeft--;
+      timeEl.textContent = secondsLeft;
+      
+      if (secondsLeft === 0) {
+         clearInterval(timerInterval);
+         endQuiz();
+      }
+   }, 1000);
+}
+// First question is presented
+function startQuiz() {
+   homeSection.style.display = "none";
+   quizSection.style.display = "block";
 
+   startTimer();
+   
+}
+
+  
 // When click on answer
    // Next question is presented
    // Correct or wrong answer is displayed below answer options
