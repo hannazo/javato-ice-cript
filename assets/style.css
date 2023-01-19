@@ -5,7 +5,7 @@
     --dark-orange: #fdc056;
     --light-green: #d3c751;
     --dark-green: #677234;
-    --light-pink: #f79c89;
+    --light-pink: #F5c5ba;
     --dark-pink: #f47469;
     --offwhite: #f5f5f5;
 }
@@ -33,6 +33,16 @@ body {
     font-size: 1.2em;
 }
 
+h1 {
+    font-size: 2em;
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+}
+
+p {
+    padding: 30px 0;
+}
+
 /* HEADER WITH NAVIGATION SECTION STYLE */
 
 header {
@@ -52,11 +62,13 @@ header {
 
 main {
     width: 80%;
-    margin: 50px auto;
-    background-color: var(--offwhite);
-    padding: 25px;
+    margin: 60px auto;
+    
+    padding: 30px;
     display: flex;
     flex-direction: column;
+    border-radius: 20px;
+    background-color: rgba(245, 245, 245, .7)
 }
 
 .hidden {
@@ -72,20 +84,10 @@ section {
 
 .home-section {
     display: block;
-    background-color: peachpuff;
     text-align: center;
 }
 
-h1 {
-    font-size: 2em;
-}
-
-p {
-    padding: 25px 0;
-}
-
 button {
-    display: block;
     font-size: 1.2em;
     background-color: var(--light-green);
     border: 1px solid var(--light-green);
@@ -103,6 +105,27 @@ button:hover {
 /* QUIZ SECTION STYLE */
 .quiz-section {
     display: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#options button {
+    width: 300px;
+    font-size: 1.2em;
+    background-color: var(--light-pink);
+    border: 1px solid var(--light-pink);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-top: 15px;
+    text-align: left;
+}
+
+#options button:hover {
+    color: white;
+    background-color: var(--dark-pink);
+    border: 1px solid var(--dark-pink);
 }
 
 /* FINAL SECTION STYLE */
