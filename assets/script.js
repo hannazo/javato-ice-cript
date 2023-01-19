@@ -150,12 +150,12 @@ function nextQuestion(event) {
    }
    else {
       endQuiz();
-      stopTimer();
    }
 }
 
 // When aswer five questions OR timer reaches zero
 function endQuiz() {
+   clearTimeout(secondsLeft);
    // Page with final score is displayed
    // Page with initials input and submit button displayed
    quizSection.style.display = "none";
@@ -163,14 +163,9 @@ function endQuiz() {
    finalText.textContent = "All done!";
 
    // Final score equals correct answers + time remaining
-   finalScore.textContent = "Your final score is " + score;
+   finalScore.textContent = "Your final score is " + score + secondsLeft;
 }
 // Timer stop
-function stopTimer() {
-   if (currentQuestion = (quizQuestions.lenth - 1)) {
-      clearTimeout(startTimer);
-   }
-}
 
 // When click submit button
 submitBtn.addEventListener("click", function (event) {
