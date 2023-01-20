@@ -25,9 +25,9 @@
         <!--HOME SECTION WITH INSTRUCTIONS AND START QUIZ BUTTON-->
         <section class="home-section">
             <h1>JavaScript Quiz</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti illo voluptates repellendus
-                ab repudiandae. Tempore fuga reiciendis quam, commodi quisquam doloremque deleniti illum! Ducimus
-                numquam iusto, unde dolore accusamus vero!
+            <p>Try to answer the following code-related questions within the time limit. 
+                Keep in mind that incorrect answers will penalize your score and time 
+                by five seconds!
             </p>
             <button id="start-button">Start Quiz</button>
         </section>
@@ -43,9 +43,10 @@
         <section class="final-section">
             <h1 id="final-text"></h1>
             <p id="final-score"></p> <!--FINAL SCORE-->
-            <form>
-                <label for="initials">Enter initials:</label>
+            <form id="initials-form">
+                <label for="initials">Enter initials: </label>
                 <input type="text" name="initials" id="initials">
+                <br>
                 <button id="submit-button" type="submit">Submit</button>
             </form>
         </section>
@@ -53,12 +54,7 @@
         <!--LEADERBOARD SECTION-->
         <section class="leaderboard-section">
             <h1>High Scores</h1>
-            <table id="leaderboard-table">
-                <tr>
-                    <th>Rank</th>
-                    <th>Score</th>
-                    <th>Initials</th>
-                </tr>
+            <ol id="leaderboard-list"></ol>
                 <!--ADD SAVED SCORE AND INITIALS HERE-->
             </table>
             <button id="go-back-button">Go Back</button>
