@@ -76,11 +76,13 @@ var feedback = document.getElementById("feedback");
 var finalSection = document.querySelector(".final-section");
 var finalText = document.getElementById("final-text")
 var finalScore = document.getElementById("final-score");
-var initialsInput = document.getElementById("initials");
+var initialsForm = document.getElementById("initials-form");
+var initialsInput = document.getElementById("initials").value;
 var score = 0;
+var leaderboardArr =[];
 // Leaderboard section
 var leaderboardSection = document.querySelector(".leaderboard-section");
-var leaderboardTable = document.getElementById("leaderboard-table");
+var leaderboardList = document.getElementById("leaderboard-list");
 
 
 // When click on start button
@@ -92,10 +94,19 @@ function startTimer() {
       secondsLeft--;
       timeEl.textContent = secondsLeft;
 
+      // Timer stops
       if (secondsLeft === 0) {
          clearInterval(timerInterval);
          endQuiz();
          finalText.textContent = "You're out of time!"
+      }
+
+      if (currentQuestion === quizQuestions.length) {
+         clearInterval(timerInterval);
+      }
+
+      if (secondsLeft < 0) {
+         secondsLeft = 0;
       }
    }, 1000);
 }
@@ -141,6 +152,7 @@ function nextQuestion(event) {
    }
    else {
       secondsLeft = secondsLeft - 5;
+      score = score - 5;
       feedback.textContent = "Wrong!"
    }
 
@@ -163,25 +175,47 @@ function endQuiz() {
    finalText.textContent = "All done!";
 
    // Final score equals correct answers + time remaining
-   finalScore.textContent = "Your final score is " + score + secondsLeft;
+
+   if ((score + secondsLeft) < 0) {
+      finalScore.textContent = "Your final score is 0";
+   }
+   else {
+      finalScore.textContent = "Your final score is " + (score + secondsLeft);
+   }
 }
-// Timer stop
 
 // When click submit button
-submitBtn.addEventListener("click", function (event) {
+submitBtn.addEventListener('click', getInput);
+
+function getInput(event) {
    event.preventDefault();
 
-   var leaderboardInput = {
-      score: score,
-      initials: initialsInput.value.trim()
+   if (initialsInput === "") {
+      window.alert("Please input your initials");
+      return;
    }
+
+   initialsForm.reset();
+
+   var leaderboardInput = {
+      initials: initialsInput.trim(),
+      score: score
+   }
+
+   leaderboardArr.push(leaderboardInput);
+
+   for (var i=0; i < leaderboardArr.length; i++) {
+      var leaderboardEl = document.createElement("li");
+      leaderboardEl.textContent = leaderboardArr[i].initials + " - " + leaderboardArr[i].score;
+      leaderboardList.appendChild(leaderboardEl);
+   }
+
    // Initials and score saved
    localStorage.setItem("leaderboardInput", JSON.stringify(leaderboardInput));
 
    // High scores page with name and score is displayed
    displayLeaderboard();
-
-});
+}
 
 // When go to leaderboard section
 function displayLeaderboard() {
@@ -190,37 +224,17 @@ function displayLeaderboard() {
    // Clear high score button is displayed
    finalSection.style.display = "none";
    leaderboardSection.style.display = "block"
-
-   renderLeaderboard();
 }
-function renderLeaderboard() {
-   var leaderboard = JSON.parse(localStorage.getItem("leaderboardInput"));
 
-   for (var i = 0; i < leaderboard.length; i++) {
-
-      var rank = document.createElement('td');
-      rank.textContent = (i + 1);
-      var score = document.createElement('td');
-      score.textContent = score;
-      var initials = document.createElement("td");
-      initials.textContent = initials;
-      var trEl = document.createElement("tr");
-      trEl.appendChild(rank);
-      trEl.appendChild(score);
-      trEl.appendChild(initials);
-
-      leaderboardTable.appendChild(trEl);
-   }
-}
 // When click on go back button
 // Go to start quiz page
 
 // When click on clear high score button
 clearBtn.addEventListener('click', clearLeaderboard);
-   // High score info is erased
+// High score info is erased
 function clearLeaderboard() {
    localStorage.setItem("leaderboardInput", []);
-   while (leaderboardTable.children.length >1) {
+   while (leaderboardTable.children.length > 1) {
       leaderboardTable.removeChild(leaderboardTable.lastChild);
    }
 }
