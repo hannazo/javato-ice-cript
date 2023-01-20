@@ -128,6 +128,15 @@ ul {
     border: 1px solid var(--dark-pink);
 }
 
+#view-leaderboard {
+    padding: 10px;
+}
+
+#view-leaderboard:hover {
+    background-color: var(--light-orange);
+    border-radius: 15px;
+}
+
 /* FINAL SECTION STYLE */
 
 .final-section {

@@ -9,6 +9,7 @@ var goBackBtn = document.getElementById("go-back-button");
 var clearBtn = document.getElementById("clear-button");
 // Home section
 var homeSection = document.querySelector(".home-section");
+var viewLeaderboard = document.getElementById("view-leaderboard");
 // Quiz section
 var quizSection = document.querySelector(".quiz-section");
 var questionText = document.getElementById("question-text");
@@ -79,11 +80,9 @@ var finalScore = document.getElementById("final-score");
 var initialsForm = document.getElementById("initials-form");
 var initialsInput = document.getElementById("initials").value;
 var score = 0;
-var leaderboardArr =[];
 // Leaderboard section
 var leaderboardSection = document.querySelector(".leaderboard-section");
 var leaderboardList = document.getElementById("leaderboard-list");
-
 
 // When click on start button
 startBtn.addEventListener('click', startQuiz);
@@ -181,39 +180,37 @@ function endQuiz() {
    }
    else {
       finalScore.textContent = "Your final score is " + (score + secondsLeft);
+      finalScore = (score + secondsLeft);
    }
 }
 
 // When click submit button
 submitBtn.addEventListener('click', getInput);
 
+var leaderboardInput
+
 function getInput(event) {
    event.preventDefault();
 
+   initialsInput = document.getElementById("initials").value;
    if (initialsInput === "") {
       window.alert("Please input your initials");
       return;
-   }
+   };
 
    initialsForm.reset();
 
-   var leaderboardInput = {
+   if (finalScore < 0) {
+      finalScore = 0;
+   }
+
+   leaderboardInput = {
       initials: initialsInput.trim(),
-      score: score
-   }
+      score: finalScore
+   };
 
-   leaderboardArr.push(leaderboardInput);
-
-   for (var i=0; i < leaderboardArr.length; i++) {
-      var leaderboardEl = document.createElement("li");
-      leaderboardEl.textContent = leaderboardArr[i].initials + " - " + leaderboardArr[i].score;
-      leaderboardList.appendChild(leaderboardEl);
-   }
-
-   // Initials and score saved
    localStorage.setItem("leaderboardInput", JSON.stringify(leaderboardInput));
 
-   // High scores page with name and score is displayed
    displayLeaderboard();
 }
 
@@ -222,21 +219,35 @@ function displayLeaderboard() {
    // High scores page with name and score is displayed
    // Go back button is displayed
    // Clear high score button is displayed
+   homeSection.style.display = "none";
    finalSection.style.display = "none";
-   leaderboardSection.style.display = "block"
+   quizSection.style.display = "none";
+   leaderboardSection.style.display = "block";
+   
+   var lastScore = JSON.parse(localStorage.getItem("leaderboardInput"));
+
+      var leaderboardLiEl = document.createElement("li");
+      leaderboardLiEl.textContent = lastScore.score + " - " + lastScore.initials;
+      leaderboardList.appendChild(leaderboardLiEl);
+
 }
 
 // When click on go back button
+goBackBtn.addEventListener('click', displayHome);
+
 // Go to start quiz page
+function displayHome() {
+   homeSection.style.display = "block";
+   finalSection.style.display = "none";
+   leaderboardSection.style.display = "none";
+}
 
 // When click on clear high score button
 clearBtn.addEventListener('click', clearLeaderboard);
 // High score info is erased
 function clearLeaderboard() {
-   localStorage.setItem("leaderboardInput", []);
-   while (leaderboardTable.children.length > 1) {
-      leaderboardTable.removeChild(leaderboardTable.lastChild);
-   }
+
 }
 // When click on view high scores link in nav menu
-   // High scores page with name and score is displayed
+// High scores page with name and score is displayed
+viewLeaderboard.addEventListener("click", displayLeaderboard);
