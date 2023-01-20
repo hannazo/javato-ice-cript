@@ -200,10 +200,6 @@ function getInput(event) {
 
    initialsForm.reset();
 
-   if (finalScore < 0) {
-      finalScore = 0;
-   }
-
    leaderboardInput = {
       initials: initialsInput.trim(),
       score: finalScore
@@ -227,6 +223,7 @@ function displayLeaderboard() {
    var lastScore = JSON.parse(localStorage.getItem("leaderboardInput"));
 
       var leaderboardLiEl = document.createElement("li");
+
       leaderboardLiEl.textContent = lastScore.score + " - " + lastScore.initials;
       leaderboardList.appendChild(leaderboardLiEl);
 
