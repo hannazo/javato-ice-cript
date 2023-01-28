@@ -2,6 +2,7 @@
 // Timer
 var timeEl = document.getElementById("timer");
 var secondsLeft = 30;
+var timerInterval;
 // Buttons
 var startBtn = document.getElementById("start-button");
 var submitBtn = document.getElementById("submit-button");
@@ -79,23 +80,26 @@ var finalText = document.getElementById("final-text")
 var finalScore = document.getElementById("final-score");
 var initialsForm = document.getElementById("initials-form");
 var initialsInput = document.getElementById("initials").value;
+var finalScoreValue = 0;
 var score = 0;
 // Leaderboard section
 var leaderboardSection = document.querySelector(".leaderboard-section");
 var leaderboardList = document.getElementById("leaderboard-list");
+
 
 // When click on start button
 startBtn.addEventListener('click', startQuiz);
 
 // Timer starts
 function startTimer() {
-   var timerInterval = setInterval(function () {
+   timerInterval = setInterval(function () {
       secondsLeft--;
       timeEl.textContent = secondsLeft;
 
       // Timer stops
-      if (secondsLeft === 0) {
+      if (secondsLeft <= 0) {
          clearInterval(timerInterval);
+         secondsLeft = 0;
          endQuiz();
          finalText.textContent = "You're out of time!"
       }
@@ -103,16 +107,14 @@ function startTimer() {
       if (currentQuestion === quizQuestions.length) {
          clearInterval(timerInterval);
       }
-
-      if (secondsLeft < 0) {
-         secondsLeft = 0;
-      }
    }, 1000);
 }
+
 // First question is presented
 function startQuiz() {
    homeSection.style.display = "none";
    quizSection.style.display = "block";
+   secondsLeft = 30;
 
    presentQuestion();
    startTimer();
@@ -166,28 +168,29 @@ function nextQuestion(event) {
 
 // When aswer five questions OR timer reaches zero
 function endQuiz() {
-   clearTimeout(secondsLeft);
+   // clearTimeout(secondsLeft);
+   clearInterval(timerInterval);
    // Page with final score is displayed
    // Page with initials input and submit button displayed
    quizSection.style.display = "none";
    finalSection.style.display = "block";
    finalText.textContent = "All done!";
+   currentQuestion = 0;
 
    // Final score equals correct answers + time remaining
 
    if ((score + secondsLeft) < 0) {
       finalScore.textContent = "Your final score is 0";
+      finalScoreValue = 0;
    }
    else {
       finalScore.textContent = "Your final score is " + (score + secondsLeft);
-      finalScore = (score + secondsLeft);
+      finalScoreValue = (score + secondsLeft);
    }
 }
 
 // When click submit button
 submitBtn.addEventListener('click', getInput);
-
-var leaderboardInput
 
 function getInput(event) {
    event.preventDefault();
@@ -200,13 +203,21 @@ function getInput(event) {
 
    initialsForm.reset();
 
-   leaderboardInput = {
+   var leaderboardInput = {
       initials: initialsInput.trim(),
-      score: finalScore
+      score: finalScoreValue
    };
 
-   localStorage.setItem("leaderboardInput", JSON.stringify(leaderboardInput));
+   var lastScore = JSON.parse(localStorage.getItem("leaderboardInput"));
 
+   if (lastScore == undefined) {
+      lastScore = [leaderboardInput];
+   }
+   else {
+      lastScore.push(leaderboardInput)
+   }
+
+   localStorage.setItem("leaderboardInput", JSON.stringify(lastScore));
    displayLeaderboard();
 }
 
@@ -219,14 +230,17 @@ function displayLeaderboard() {
    finalSection.style.display = "none";
    quizSection.style.display = "none";
    leaderboardSection.style.display = "block";
-   
+
+   leaderboardList.innerHTML = "";
+
    var lastScore = JSON.parse(localStorage.getItem("leaderboardInput"));
 
+   for (var i = 0; i < lastScore.length; i++) {
+
       var leaderboardLiEl = document.createElement("li");
-
-      leaderboardLiEl.textContent = lastScore.score + " - " + lastScore.initials;
+      leaderboardLiEl.textContent = lastScore[i].score + " - " + lastScore[i].initials;
       leaderboardList.appendChild(leaderboardLiEl);
-
+   }
 }
 
 // When click on go back button
@@ -243,7 +257,7 @@ function displayHome() {
 clearBtn.addEventListener('click', clearLeaderboard);
 // High score info is erased
 function clearLeaderboard() {
-
+   localStorage.clear();
 }
 // When click on view high scores link in nav menu
 // High scores page with name and score is displayed
